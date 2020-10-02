@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Tutorial_Long::post" title="Manage post" module="Tutorial_Long" sortOrder="9" action="tutorial_long/post/index" resource="Tutorial_Long::post"/>
+    </menu>
+</config>
