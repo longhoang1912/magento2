@@ -78,7 +78,7 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="selectProvider" xsi:type="string">tutorial_long_post_listing.tutorial_long_post_listing.tutorial_long_post_columns.ids</item>
-                    <item name="indexField" xsi:type="string">id</item>
+                    <item name="indexField" xsi:type="string">post_id</item>
                 </item>
             </argument>
             <action name="delete">
@@ -121,7 +121,7 @@
                 </argument>
             </action>
         </massaction>
-        <paging name="listing_paging"/>
+        <paging name="tutorial_long_post_listing_paging"/>
     </listingToolbar>
     <columns name="tutorial_long_post_columns">
         <settings>

@@ -1,66 +1,87 @@
 <?php
+/**
+ */
 
 namespace Tutorial\Long\Controller\Adminhtml\Post;
-
-use Magento\Backend\App\Action;
 
 class Edit extends \Magento\Backend\App\Action
 {
     /**
-     * Authorization level of a basic admin session
+     * @var \Magento\Framework\View\Result\PageFactory
      */
-    const ADMIN_RESOURCE = 'Tutorial_Long::post_edit';
-
-    protected $_coreRegistry;
     protected $resultPageFactory;
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Magento\Framework\Registry $registry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->resultPageFactory = $resultPageFactory;
-        $this->_coreRegistry = $registry;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
 
     /**
-     * Load layout and set active menu
+     * Edit action
+     *
+     * @return \Magento\Framework\Controller\ResultInterface
      */
-    protected function _initAction()
-    {
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */ 
-        $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Tutorial_Long::post');
-        return $resultPage;
-    }
-
     public function execute()
     {
-        // Get ID and create model
+        // 1. Get ID and create model
         $id = $this->getRequest()->getParam('post_id');
         $model = $this->_objectManager->create('Tutorial\Long\Model\Post');
 
-        // Initial checking
+        // 2. Initial checking
         if ($id) {
             $model->load($id);
-
-            // If cannot get ID of model, display error message and redirect to List page
             if (!$model->getId()) {
-                $this->messageManager->addError(__('This image no longer exists.'));
+                $this->messageManager->addError(__('This post no longer exists.'));
+                /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');
             }
         }
 
-        // Registry banner
-        $this->_coreRegistry->register('post', $model);
+        $this->_coreRegistry->register('tutorial_long', $model);
 
-        // Build form
-        $resultPage = $this->_initAction();
-        $resultPage->getConfig()->getTitle()
-            ->prepend($model->getId() ? $model->getImage() : __('Create Image'));
-
+        // 5. Build edit form
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->setActiveMenu(
+            'Tutorial_Long::post'
+        )->addBreadcrumb(
+            __('Post Slider'), __('Post Slider')
+        )->addBreadcrumb(
+            __('All Post'), __('All Post')
+        )->addBreadcrumb(
+            $id ? __('Edit Post') : __('New Post'),
+            $id ? __('Edit Post') : __('New Post')
+        );
+        $resultPage->getConfig()->getTitle()->prepend(__('All Post'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getName() : __('New Post'));
         return $resultPage;
+    }
+
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Tutorial_Long::post_edit') || $this->_authorization->isAllowed('Tutorial_Long::post_edit');
     }
 }

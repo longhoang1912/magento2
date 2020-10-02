@@ -1,0 +1,37 @@
+{
+    "name": "Tutorial/Long",
+    "description":"Magento2 module Tutorial",
+    "keywords": [
+        "magento 2",
+        "post",
+        "tutorial",
+        "helloworld",
+        "long"
+    ],
+    "require": {
+        "php": "~5.6.0|7.2.3|~7.3.0",
+        "magento/module-backend": "100.0.*|100.1.*",
+        "magento/framework": "100.0.*|100.1.*"
+    },
+    "type": "magento2-module",
+    "version": "2.1.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Long vh",
+            "email": "longhoang1912@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Tutorial\\Long\\": ""
+        }
+    }
+}

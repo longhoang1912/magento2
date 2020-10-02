@@ -1,25 +1,26 @@
 <?php
 /**
- *
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
  */
-namespace Magento\Cms\Controller\Adminhtml\Page;
 
-use Magento\Framework\App\Action\HttpGetActionInterface;
+namespace Tutorial\Long\Controller\Adminhtml\Post;
 
-/**
- * Create CMS page action.
- */
-class NewAction extends \Magento\Backend\App\Action implements HttpGetActionInterface
+class NewAction extends \Magento\Backend\App\Action
 {
-    const ADMIN_RESOURCE = 'Tutorial_Long::post_new';
-    protected $resultForwardFactory;
     /**
-     * Dispatch request
+     * Authorization level of a basic admin session
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @see _isAllowed()
+     */
+    const ADMIN_RESOURCE = 'Tutorial_Long::post_new';
+
+    /**
+     * @var \Magento\Backend\Model\View\Result\ForwardFactory
+     */
+    protected $resultForwardFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -28,9 +29,16 @@ class NewAction extends \Magento\Backend\App\Action implements HttpGetActionInte
         $this->resultForwardFactory = $resultForwardFactory;
         parent::__construct($context);
     }
+
+    /**
+     * Create new Banner Slider
+     *
+     * @return \Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
-        $resultForwardFactory = $this->resultForwardFactory->create();
-        return $resultForwardFactory->forward('edit');
+        /** @var \Magento\Framework\Controller\Result\Forward $resultForward */
+        $resultForward = $this->resultForwardFactory->create();
+        return $resultForward->forward('edit');
     }
 }
